@@ -110,6 +110,31 @@ void add_shape() {
     printf("Shape added with ID: %d\n", shapes[idx].id);
 }
 
+void delete_shape() {
+    int id; printf("Enter Shape ID to delete: "); scanf("%d", &id);
+    for (int i = 0; i < MAX_SHAPES; i++) {
+        if (shapes[i].is_active && shapes[i].id == id) {
+            shapes[i].is_active = 0; render_all_shapes();
+            printf("Shape %d deleted.\n", id); return;
+        }
+    }
+    printf("ID not found.\n");
+}
+
+void modify_shape() {
+    int id; printf("Enter Shape ID to modify: "); scanf("%d", &id);
+    for (int i = 0; i < MAX_SHAPES; i++) {
+        if (shapes[i].is_active && shapes[i].id == id) {
+            if (shapes[i].type == LINE) { printf("New x1 y1 x2 y2: "); scanf("%d %d %d %d", &shapes[i].x1, &shapes[i].y1, &shapes[i].x2, &shapes[i].y2); }
+            else if (shapes[i].type == RECTANGLE) { printf("New top-left & bottom-right: "); scanf("%d %d %d %d", &shapes[i].x1, &shapes[i].y1, &shapes[i].x2, &shapes[i].y2); }
+            else if (shapes[i].type == CIRCLE) { printf("New center and radius: "); scanf("%d %d %d", &shapes[i].x1, &shapes[i].y1, &shapes[i].radius); }
+            else if (shapes[i].type == TRIANGLE) { printf("New x1 y1 x2 y2 x3 y3: "); scanf("%d %d %d %d %d %d", &shapes[i].x1, &shapes[i].y1, &shapes[i].x2, &shapes[i].y2, &shapes[i].x3, &shapes[i].y3); }
+            render_all_shapes(); printf("Shape modified.\n"); return;
+        }
+    }
+    printf("ID not found.\n");
+}
+
 int main() {
     for (int i = 0; i < MAX_SHAPES; i++) shapes[i].is_active = 0;
     clear_canvas();
@@ -122,8 +147,8 @@ int main() {
         
         switch (choice) {
             case 1: add_shape(); break;
-            case 2: printf("Delete feature coming soon!\n"); break;
-            case 3: printf("Modify feature coming soon!\n"); break;
+            case 2: delete_shape(); break;
+            case 3: modify_shape(); break;
             case 4: display_canvas(); break;
             case 5: printf("Exiting...\n"); break;
             default: printf("Invalid choice.\n");
